@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Daily Bugle</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Playfair+Display:wght@700;900&family=Special+Elite&display=swap">
+<style>
+:root{--paper:#eadcbc;--paper2:#dfcc9f;--ink:#2a2118;--mute:#6e5c43;--red:#9b2d20;--line:#2a2118;--age:.5;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#2a231b;--paper2:#1e1913;--ink:#e9dbbb;--mute:#aa9874;--red:#d86a58;--line:#e9dbbb;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#2a231b;--paper2:#1e1913;--ink:#e9dbbb;--mute:#aa9874;--red:#d86a58;--line:#e9dbbb;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:"IM Fell English",Georgia,"Times New Roman",serif;font-size:var(--fs,19px);line-height:1.65;background:radial-gradient(ellipse at center,var(--paper) 40%,var(--paper2) 100%) fixed;min-height:100vh;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;opacity:calc(var(--age)*.5);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");mix-blend-mode:multiply}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:21;box-shadow:inset 0 0 calc(40px + var(--age)*160px) rgba(60,35,10,calc(var(--age)*.55))}
+#bar{position:fixed;left:0;top:0;height:4px;width:0;background:var(--red);z-index:30}
+.wrap{max-width:860px;margin:0 auto;padding:1rem 1.2rem 4rem}
+.top{display:flex;justify-content:space-between;font-family:"Special Elite",monospace;font-size:.75rem;border-bottom:1px solid var(--line);padding-bottom:.3rem;gap:.5rem;flex-wrap:wrap}
+.mast{text-align:center;border-bottom:4px double var(--line);padding:.6rem 0 .8rem}
+.mast h1{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:clamp(2rem,8vw,4.2rem);margin:0;line-height:1;letter-spacing:.02em}
+.mast p{margin:.3rem 0 0;font-style:italic;color:var(--mute)}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:0;border-bottom:1px solid var(--line);margin-bottom:1.5rem;position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:10}
+nav a{font-family:"Special Elite",monospace;text-transform:uppercase;font-size:.78rem;letter-spacing:.08em;color:var(--ink);text-decoration:none;padding:.5rem .8rem;border-right:1px solid var(--line)}
+nav a:last-child{border-right:0}
+nav a:hover,nav a.on{background:var(--ink);color:var(--paper)}
+.tools{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.2rem;align-items:center;font-family:"Special Elite",monospace;font-size:.75rem}
+button{font:inherit;font-family:"Special Elite",monospace;font-size:.75rem;color:var(--ink);background:transparent;border:1.5px solid var(--ink);padding:.3rem .7rem;cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+button:hover{background:var(--ink);color:var(--paper)}
+input[type=range]{accent-color:var(--red);width:90px}
+section{display:none}
+section.on{display:block;animation:in .7s}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+h2{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:clamp(1.8rem,6vw,3rem);line-height:1.1;margin:.2em 0;border-bottom:1px solid var(--line);padding-bottom:.3rem}
+.k{font-family:"Special Elite",monospace;color:var(--red);text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;margin:0}
+.ph{color:var(--red)}
+.cols{column-count:2;column-gap:2rem;column-rule:1px solid var(--line);text-align:justify;hyphens:auto}
+@media(max-width:620px){.cols{column-count:1}}
+.dropcap::first-letter{float:left;font-family:"Playfair Display",serif;font-weight:900;font-size:4.2rem;line-height:.8;padding:.08em .1em 0 0;color:var(--red)}
+.hero{text-align:center;padding:1.5rem 0;position:relative}
+.hero h2{border:0;font-size:clamp(2.2rem,8vw,4.5rem)}
+#type{font-family:"Special Elite",monospace;min-height:3.2em;font-size:1rem}
+.stamp{display:inline-block;border:3px double var(--red);color:var(--red);font-family:"Special Elite",monospace;padding:.2rem .8rem;transform:rotate(-8deg);text-transform:uppercase;letter-spacing:.1em;margin:.5rem;opacity:.85}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1.5rem}
+.tile{display:block;color:inherit;text-decoration:none;border:1px solid var(--line);padding:1rem;background:var(--paper);box-shadow:3px 4px 0 rgba(0,0,0,.25);transition:transform .25s}
+.tile:nth-child(odd){transform:rotate(-1.2deg)}.tile:nth-child(even){transform:rotate(1deg)}
+.tile:hover{transform:rotate(0) scale(1.04);z-index:2}
+.tile b{font-family:"Playfair Display",serif;font-size:1.25rem;display:block}
+.tile span{font-family:"Special Elite",monospace;font-size:.75rem;color:var(--mute)}
+.note{display:none;font-family:"Special Elite",monospace;font-size:.85rem;background:#f4e98a;color:#3a3210;padding:.8rem 1rem;transform:rotate(-1deg);box-shadow:2px 3px 6px rgba(0,0,0,.35);margin:1.2rem 0;max-width:420px}
+.notes-on .note{display:block}
+.poem{border:1px solid var(--line);margin:1rem 0;background:var(--paper)}
+.poem>button{all:unset;display:block;width:100%;padding:.9rem 1.1rem;cursor:pointer;box-sizing:border-box}
+.poem>button:hover{background:rgba(0,0,0,.08)}
+.poem h3{margin:0;font-family:"Playfair Display",serif;font-size:1.4rem}
+.poem small{font-family:"Special Elite",monospace;color:var(--mute)}
+.pb{display:none;padding:0 1.1rem 1.1rem;font-style:italic}
+.poem.open .pb{display:block;animation:in .5s}
+.line{cursor:pointer;transition:background .2s}.line:hover{background:rgba(155,45,32,.15)}
+.line.hl{background:var(--red);color:var(--paper)}
+.soon{opacity:.55}
+.ctl{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.quest{border:2px solid var(--line);padding:1.2rem;margin:1.5rem 0;background:rgba(0,0,0,.05)}
+.qtext{font-size:1.15rem;font-style:italic;margin:.5rem 0 1rem;animation:in .6s}
+.gobtn{font-family:"Special Elite",monospace;text-transform:uppercase;font-size:.78rem;letter-spacing:.05em;background:var(--red);color:var(--paper);padding:.4rem .9rem;text-decoration:none}
+.next{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-top:1px solid var(--line);margin-top:2.5rem;padding-top:1rem}
+.next a{font-family:"Special Elite",monospace;color:var(--red);text-decoration:none;text-transform:uppercase;font-size:.8rem}
+.next a:hover{text-decoration:underline}
+.one{max-width:660px;margin:0 auto}
+.one p{margin:0 0 1.15rem}
+.crack{font-family:"Playfair Display",Georgia,serif;font-weight:900;font-size:clamp(3.2rem,15vw,7.5rem);line-height:1;color:var(--red);margin:.2em 0 .15em!important;cursor:pointer;display:block;letter-spacing:.03em;user-select:none}
+.crack.shake{animation:shk .5s}
+@keyframes shk{20%{transform:translate(-8px,2px) rotate(-3deg)}40%{transform:translate(7px,-3px) rotate(2.5deg)}60%{transform:translate(-5px,1px) rotate(-1.5deg)}80%{transform:translate(3px,0) rotate(1deg)}}
+.tl{font-style:italic;text-align:center;font-size:1.15em;border-left:3px solid var(--red);border-right:3px solid var(--red);padding:.3rem 1rem}
+.orn{text-align:center;color:var(--red);letter-spacing:.5em;margin:1.8rem 0}
+.tile.locked{border-style:dashed;opacity:.8;cursor:not-allowed}
+.tile.locked b{font-size:1.8rem;letter-spacing:.3em}
+.tile.locked:hover{transform:rotate(0)}
+.obj.sealed{opacity:.55;border-style:dashed;cursor:not-allowed}
+.poem{margin:2.2rem 0;border:2px solid var(--line);box-shadow:4px 5px 0 rgba(0,0,0,.25)}
+.poem .pb{display:block;padding-top:.4rem}
+.poem>button{pointer-events:none;border-bottom:1px solid var(--line)}
+.poem h3{font-size:1.7rem}
+.poem small{text-transform:uppercase;letter-spacing:.08em;color:var(--red)}
+.poem.soon{opacity:1}
+.ed{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1rem}
+.face{font-size:2.4rem;cursor:pointer;border:2px solid var(--line);border-radius:50%;width:4.2rem;height:4.2rem;display:flex;align-items:center;justify-content:center;flex:none;background:var(--paper);animation:bob 3s infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.bubble{position:relative;border:2px solid var(--line);background:var(--paper);padding:.7rem 1rem;flex:1;border-radius:14px}
+.bubble::before{content:"";position:absolute;left:-10px;top:22px;border:8px solid transparent;border-right-color:var(--line);border-left:0}
+.bubble b{font-family:"Special Elite",monospace;font-size:.75rem;color:var(--red);text-transform:uppercase}
+.bubble p{margin:.2rem 0;min-height:3.4em}
+.desk{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1rem;padding:1.2rem;border:2px solid var(--line);background:repeating-linear-gradient(90deg,rgba(90,55,25,.25) 0 2px,transparent 2px 38px),var(--paper2)}
+.obj{display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:.8rem .4rem;background:var(--paper);color:var(--ink);border:1px solid var(--line);box-shadow:3px 4px 0 rgba(0,0,0,.3);text-transform:none;font-size:.78rem;transition:transform .25s}
+.obj .em{font-size:2.6rem;line-height:1}
+.obj:nth-child(odd){transform:rotate(-3deg)}.obj:nth-child(even){transform:rotate(2.5deg)}
+.obj:hover{transform:rotate(0) translateY(-6px) scale(1.08);background:var(--paper);color:var(--red)}
+.say{font-family:"Special Elite",monospace;font-size:.85rem;border-left:3px solid var(--red);padding:.4rem .8rem;margin:.8rem 0;color:var(--mute)}
+footer{text-align:center;font-family:"Special Elite",monospace;font-size:.75rem;border-top:4px double var(--line);padding-top:.8rem;margin-top:3rem;color:var(--mute)}
+
+
+/* Giannis tribute */
+.tribute{display:flex;gap:1.4rem;align-items:center;margin:1.4rem 0 1.8rem;padding:1.2rem;border:2px solid var(--line);box-shadow:4px 5px 0 rgba(0,0,0,.22);background:linear-gradient(135deg,color-mix(in srgb,#00471b 14%,var(--paper)),var(--paper))}
+.jersey{flex:none;width:120px;height:140px;background:#00471b;color:#eee1c6;clip-path:polygon(22% 0,38% 0,50% 10%,62% 0,78% 0,100% 14%,88% 34%,82% 30%,82% 100%,18% 100%,18% 30%,12% 34%,0 14%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:18px;filter:sepia(.35);transform:rotate(-4deg);transition:transform .4s}
+.tribute:hover .jersey{transform:rotate(0) scale(1.05)}
+.jname{font-family:"Special Elite",monospace;font-size:.5rem;letter-spacing:.06em;order:-1}
+.jn{font-family:"Playfair Display",serif;font-weight:900;font-size:3.4rem;line-height:1}
+.tcap{flex:1}
+.tq{font-family:"Playfair Display",serif;font-style:italic;font-size:clamp(1.3rem,4vw,1.9rem);margin:.2rem 0 .5rem;line-height:1.2}
+.route{display:flex;align-items:center;gap:.6rem;font-family:"Special Elite",monospace;font-size:.8rem;text-transform:uppercase}
+.route i{flex:1;max-width:160px;border-top:2px dashed var(--red);position:relative}
+.route i::after{content:"✈";position:absolute;right:-4px;top:-.85rem;color:var(--red);font-style:normal}
+.flags{display:flex;gap:.4rem;margin:.6rem 0 .4rem}
+.flags b{width:42px;height:24px;border:1px solid var(--line);filter:sepia(.4)}
+.flags .gr{background:repeating-linear-gradient(#0d5eaf 0 2.67px,#fff 2.67px 5.33px)}
+.flags .ng{background:linear-gradient(90deg,#008751 33.3%,#fff 33.3% 66.6%,#008751 66.6%)}
+.tcap small{font-family:"Special Elite",monospace;font-size:.7rem;color:var(--mute)}
+@media(max-width:560px){.tribute{flex-direction:column;text-align:center}.route,.flags{justify-content:center}}
+.essay p{margin:0 0 1rem}
+/* Vermin poem */
+.poem.roachy{position:relative;overflow:hidden;background:repeating-linear-gradient(45deg,transparent 0 22px,color-mix(in srgb,var(--ink) 4%,transparent) 22px 23px),var(--paper)}
+.poem .gap{height:1rem}
+.poem .refrain{text-align:center;font-style:normal;font-family:"Special Elite",monospace;color:var(--red);font-size:.95em;letter-spacing:.02em}
+.roach{position:absolute;right:1rem;top:.6rem;color:var(--ink);cursor:pointer;z-index:3;transform:rotate(-30deg);animation:twitch 3.5s infinite;pointer-events:auto}
+.roach svg{display:block}
+@keyframes twitch{0%,88%,100%{transform:rotate(-30deg)}91%{transform:rotate(-24deg) translateX(2px)}94%{transform:rotate(-34deg)}}
+.roach.flee{animation:flee 2.4s forwards}
+@keyframes flee{0%{transform:rotate(-30deg)}10%{transform:rotate(-90deg)}45%{transform:translate(-55vw,40px) rotate(-90deg)}46%{opacity:0}55%{opacity:0;transform:translate(10vw,0) rotate(-90deg)}70%{opacity:1}100%{transform:translate(0,0) rotate(-30deg)}}
+.poem.roachy::after{content:"";position:absolute;right:-30px;bottom:-30px;width:180px;height:120px;background:radial-gradient(ellipse,rgba(0,0,0,.18),transparent 70%);transform:rotate(-20deg);pointer-events:none}
+/* ---- Design polish ---- */
+.mast{position:relative;padding:1rem 0 1rem}
+.mast h1{letter-spacing:.01em;text-shadow:0 1px 0 rgba(255,255,255,.15)}
+.mast::after{content:"";display:block;width:120px;height:2px;background:var(--red);margin:.7rem auto 0}
+.top{opacity:.85;letter-spacing:.04em}
+.tools{gap:.35rem;padding:.5rem;margin:0 auto 1.6rem;border:1px dashed color-mix(in srgb,var(--line) 45%,transparent);max-width:720px}
+.tools button{font-size:.66rem;padding:.25rem .55rem;border-width:1px;transition:background .2s,color .2s,transform .15s}
+.tools button:active{transform:translateY(1px)}
+.tools label{font-size:.66rem;opacity:.8}
+@media(max-width:620px){.tools{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scrollbar-width:none;-webkit-overflow-scrolling:touch}.tools::-webkit-scrollbar{display:none}.tools>*{flex:none}}
+.hero{padding:2.2rem 0 1.4rem}
+.hero h2{letter-spacing:-.005em;margin:.35em 0 .3em}
+#type{max-width:560px;margin:0 auto;line-height:1.6;color:var(--mute)}
+.stamp{margin-top:1rem;cursor:pointer;transition:transform .3s}
+.stamp:hover{transform:rotate(-4deg) scale(1.05)}
+.quest{background:color-mix(in srgb,var(--ink) 4%,transparent);box-shadow:inset 0 0 0 4px var(--paper),inset 0 0 0 5px color-mix(in srgb,var(--line) 40%,transparent)}
+.tile{padding:1.15rem 1.2rem;transition:transform .25s,box-shadow .25s}
+.tile:hover{box-shadow:6px 8px 0 rgba(0,0,0,.22)}
+.tile b{margin-bottom:.25rem}
+h2{margin-bottom:.6rem}
+section>.k{margin-top:.4rem}
+.one p{text-align:left}
+.one>p:first-of-type+p::first-letter{float:left;font-family:"Playfair Display",serif;font-weight:900;font-size:3.6rem;line-height:.85;padding:.06em .1em 0 0;color:var(--red)}
+.tl{margin:1.6rem auto!important;max-width:520px}
+.note{line-height:1.5}
+nav a{transition:background .2s,color .2s}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+::selection{background:var(--red);color:var(--paper)}
+footer{letter-spacing:.04em}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="wrap">
+  <div class="top"><span id="date"></span><span>Vol. I · No. 1</span><span>Price: One Thoughtful Read</span></div>
+  <header class="mast"><h1>The Daily Bugle</h1><p>“All the writing that’s fit to print”</p></header>
+  <div class="tools">
+    <button id="musicBtn">♪ Gramophone: off</button>
+    <button id="notesBtn">✎ Margin notes</button>
+    <button id="fsBtn">Aa</button>
+    <button id="themeBtn">☾ Night edition</button>
+    <label>Age the paper <input id="age" type="range" min="0" max="100" value="50"></label>
+  </div>
+
+<section id="home">
+  <div class="hero">
+    <p class="k">Special Edition · Creative Composition</p>
+    <h2 id="title0">Angelo’s Collected Writing</h2>
+    <div id="type"></div>
+    <span class="stamp" id="stamp" title="Click me!">Approved for print</span>
+  </div>
+  <div class="quest"><p class="k">A story begins… click an object on the desk</p><div id="quest"></div></div>
+  <div class="grid">
+    <a class="tile" href="#about"><b>The Author</b><span>Page 2 · Who is writing?</span></a>
+    <a class="tile" href="#memoir"><b>Memoir</b><span>Page 3 · A moment that shaped me</span></a>
+    <a class="tile" href="#essay"><b>Journalistic Essay</b><span>Page 4 · Facts, told as a story</span></a>
+    <a class="tile" href="#poems"><b>Poems</b><span>Page 5 · Three small worlds</span></a>
+    <a class="tile" href="#reflection"><b>Writer’s Reflection</b><span>Page 6 · What I learned</span></a>
+  </div>
+</section>
+
+<section id="about">
+  <p class="k">Profile · The Author</p>
+  <h2>Meet the Writer</h2>
+  <div class="cols"><p class="dropcap">My name is Angelo, and I’m a Grade 11 student at FEU Alabang. Most of my free time goes to listening to music, watching movies and series, playing online games, and cooking.</p><p>I’m also a big basketball fan, though I don’t play it myself, sadly, so I enjoy it from the sidelines. What made me start writing is this subject, Creative Composition. I never really wrote before it, and this portfolio is the result.</p></div>
+  <p class="k">Classified ads, click to read</p>
+  <div class="ctl" id="facts"></div>
+  <p id="factOut" class="ph" style="min-height:2em"></p>
+</section>
+
+<section id="memoir">
+  <p class="k">Feature · Memoir</p>
+  <h2>A Foundation Day to Remember</h2>
+  <div class="one">
+<p class="crack" id="crack" title="Click me!">CRACK.</p>
+<p>Everyone went silent. Arkin looked down. Then he looked at us. For a second, nobody moved. The silence lasted just long enough for all of us to realize what had happened. Then we burst out laughing.</p>
+<p>It was probably the last thing any of us expected to happen that morning. We had only just gotten into the van, and we were supposed to be heading to our school’s 38th founding anniversary at the Muntinlupa Sports Complex. But before we could even leave, Arkin had already given us a reason to remember that morning.</p>
+<div class="orn">✦ ✦ ✦</div>
+<p>A few minutes earlier, we had been standing around at Maksim’s house, checking our things and waiting for one person. Arkin. We called him. The phone rang. Again. And again. Finally, he answered.</p>
+<p class="tl">“Kakagising ko lang po.”</p>
+<p>His voice was so groggy and calm that we immediately knew he had just woken up. Everyone else had been ready, while he was probably still figuring out where he was. After gathering his things, he sprinted toward Maksim’s van. His hair was messy, and he still looked half-asleep as he ran toward us. We couldn’t help laughing. He finally reached the van, climbed inside, and sat down.</p>
+<p>That was when we heard the crack. And then, somehow, Dylan’s pants ripped too. This time, the laughter came with a little more panic. Two costumes were damaged, and we hadn’t even left yet.</p>
+<p>We called Coach Meng and told him what happened. He said he would repair the pants once we arrived. There wasn’t much else we could do, so we checked our things one more time and left. The jokes continued in the van, but as the buildings outside the window changed, my attention slowly shifted toward what was waiting for us. The Muntinlupa Sports Complex. Our Foundation Day. Our performance.</p>
+<div class="orn">✦ ✦ ✦</div>
+<p>When we arrived, Coach Meng immediately worked on the damaged costumes. I stood nearby and looked around the sports complex. There were students everywhere. Groups gathered together in their costumes. Teachers moved around the venue. Voices came from different directions, mixing with music and announcements. The crowd seemed much larger now that I was standing in it.</p>
+<p>I looked toward the stage. At Maksim’s house, the performance had felt distant. It was easy to laugh when we were still getting ready. Even the ripped costumes had been funny for a while. Now I could see where we were supposed to perform. The stage didn’t look quite as harmless anymore.</p>
+<p>Foundation Day started. One group went up. Then another. I watched them carefully, following their movements even when I already knew I wasn’t performing their routine. Every time a group finished, another one seemed to take its place.</p>
+<p>I began going through our dance in my head. One, two, three, four. Then the next set of movements. I stopped. I couldn’t remember one part. I started again. One, two, three, four, five, six, seven, eight. I looked toward the stage. Another group was performing. The music filled the sports complex, and I watched their movements until the performance ended.</p>
+<p>Our turn was getting closer. I tried not to think about it. That made me think about it even more. What if I forgot the steps? What if I made a mistake? What if I looked at the wrong person? What if everyone noticed? Those thoughts kept piling up in my head. The more I tried to make sure I wouldn’t make a mistake, the more nervous I became.</p>
+<p>I had always been like that whenever something mattered to me. With tests, presentations, group projects, conversations, or even simple decisions, I could spend too much time thinking about what might go wrong. Sometimes I would imagine the mistake before I even had the chance to make it.</p>
+<p>Part of the reason was that I didn’t see mistakes as just mistakes. In my mind, making one could feel like proof that I was incompetent, stupid, or weak. If I forgot something I should have remembered, I would wonder why I couldn’t get something so simple right. If I made a mistake in front of other people, I would imagine them noticing it and thinking less of me. The actual mistake might last only a few seconds, but I could replay it in my head much longer.</p>
+<p>That was why the performance felt threatening. I wasn’t only afraid of forgetting a step. I was afraid of what forgetting that step would mean.</p>
+<p>I ran through the routine again. The first few counts. The transitions. The ending. Then I started over. Another group finished. The space between their performance and ours was getting smaller. Soon, there would be no more groups to watch. No more time to rehearse the dance in my head. No more waiting.</p>
+<p>Coach Meng came over while we were getting ready.</p>
+<p class="tl">“Wag kayo kabahan, ang importante mag-enjoy kayong lahat.”</p>
+<p>It was simple advice, but I remember how difficult it felt to follow. I was still thinking about every step I could get wrong while he was reminding us to enjoy the moment. Looking back, there was something almost funny about it. I was trying to control every possible outcome while he was telling us that the important thing was simply to enjoy ourselves.</p>
+<div class="orn">✦ ✦ ✦</div>
+<p>Our group was called. I looked toward the stage. For a moment, the sounds around me seemed to blur together. I could hear my own breathing. My heart was beating faster, and the lights seemed brighter than they had from the crowd. I could feel the nervousness in my body as I took my place.</p>
+<p>The music started. I followed the first movement. Then the next. The steps I had been repeating in my head finally had somewhere to go. I didn’t think about the people watching. I didn’t think about what would happen if I messed up. I just followed the music. One count. Another. Then another. The routine kept moving, and so did we.</p>
+<p>The stage looked different from up there. From the crowd, it had seemed enormous. Standing on it, there wasn’t much time to think about its size. I could feel the floor beneath my feet as I moved through the routine, but there was no time to question whether I was doing everything perfectly. There was only the music. And the next step.</p>
+<p>Then the last part came. I followed the final movements. The music stopped. For a moment, I just stood there. Then we moved off the stage. I looked back at the crowd. The same place that had seemed so overwhelming when we first arrived was still there. The same students, the same teachers, the same stage. But something about it felt different. Maybe it was because I was no longer waiting.</p>
+<div class="orn">✦ ✦ ✦</div>
+<p>On the way home, I kept thinking about how the day had started. Arkin had overslept. His pants had ripped the moment he sat down. Then Dylan’s did too. We had laughed, panicked, called Coach Meng, and kept going. At the sports complex, I had spent the next few hours doing almost the same thing in my head, imagining every possible way the performance could fall apart before it had even begun.</p>
+<p>The funny thing was, I had been afraid of making one mistake on stage when the morning had already given us plenty of them. Maybe I had been looking at mistakes the wrong way. Arkin being late hadn’t stopped us from leaving. The ripped costumes hadn’t stopped us from performing. Standing backstage with my thoughts racing hadn’t stopped me from remembering the first step when the music started. None of those moments disappeared. They just became part of the story.</p>
+<p>For a long time, I had treated mistakes as if they were signs that something was wrong with me. If I didn’t do something correctly, I felt like I had failed at more than just that one thing. I could turn a small mistake into a bigger judgment about myself before anyone else even had the chance to react. I often thought through every possible mistake because it felt safer to prepare for failure than to be surprised by it. I thought that if I worried enough, I could somehow prevent things from going wrong.</p>
+<p>But that morning showed me that worrying about every possible mistake didn’t actually protect me from anything. The things that went wrong were not the things I had spent hours imagining. Arkin was late. The costumes ripped. We dealt with them. Then we performed. I realized that I had been giving mistakes more power than they deserved. I had been treating them as final judgments when they were usually just moments that needed to be handled.</p>
+<p>I don’t think Foundation Day completely changed me. I still overthink things, especially when I care about the result. I still sometimes imagine what could go wrong, and I still worry about disappointing people or looking like I don’t know what I’m doing. But now I try to respond to that feeling differently. When I catch myself thinking too far ahead, I try to focus on the next thing I can actually do instead of every possible thing that could go wrong. If I make a mistake, I try to correct it before judging myself for it. And when I face something uncertain, I remind myself that I don’t have to be completely sure of the outcome before I begin.</p>
+<p>I don’t always succeed. But I think that is part of the point. I used to see mistakes as signs of incompetence, stupidity, or weakness. Now, I am starting to see them as part of growing, improving, and learning. A mistake can still be embarrassing or frustrating, but it doesn’t have to decide what happens next.</p>
+<p>I think that’s why I still remember the sound of those pants ripping. At the time, it felt like another problem we had to fix. Now, it makes me remember everything that came after it—the laughter, the nervousness, the stage, and the moment when the music finally stopped.</p>
+<p>The day didn’t become memorable because everything went according to plan. It became memorable because it didn’t.</p>
+  </div>
+  <div class="note"><b>Editor’s note:</b> <span>I remember the funny parts first, the late friend and the ripped pants. But the part that really stayed with me was how nervous I got before going on stage.</span></div>
+</section>
+
+<section id="essay">
+  <p class="k">Special Report · Journalistic Essay</p>
+  <h2>The Greek Freak</h2>
+  <p style="font-style:italic;color:var(--mute)">By Angelo, Staff Writer</p>
+  <figure class="tribute" aria-label="A tribute to Giannis Antetokounmpo">
+  <div class="jersey"><span class="jn">34</span><span class="jname">ANTETOKOUNMPO</span></div>
+  <div class="tcap"><p class="k">In Commemoration</p><p class="tq">“I feel Greco-Nigeriano.”</p>
+  <div class="route"><span>Athens</span><i></i><span>Milwaukee</span></div>
+  <div class="flags"><b class="gr"></b><b class="ng"></b></div>
+  <small>Giannis Antetokounmpo · b. 1994, Athens · No. 15 pick, 2013 NBA Draft</small></div>
+</figure>
+  <div class="cols essay"><p class="dropcap">Before the sold-out arenas and the championship parades, there was Athens. There, Giannis Antetokounmpo remembers walking the streets with his brothers, selling whatever they could to help their family. In a 60 Minutes interview with Steve Kroft, Giannis was asked what he used to sell. “Glasses, watches,” he answered. “Then, we used to sell CDs, DVDs.” Kroft asked whether he had been a good salesman. “I was the best,” Giannis replied.</p><p>The exchange is lighthearted, almost playful. Giannis smiles at a memory that, beneath the humor, came from necessity. His parents had immigrated from Nigeria to Greece, where the family struggled financially. Giannis and his brothers helped their parents by selling goods on the streets of Athens. At one point, according to the 60 Minutes report, Giannis and his brother Thanasis even shared one pair of basketball shoes during games: one brother would leave the court and hand the shoes to the other.</p><p>It is tempting to look at Giannis's childhood only as the beginning of a success story. The poor kid from Athens becomes an NBA superstar. The street vendor becomes a millionaire athlete. The boy selling watches becomes the player whose name fills arenas. But that version leaves out a more complicated question: Where did Giannis belong?</p><p>Giannis was born in Athens in 1994 to Nigerian immigrant parents. For much of his childhood, his family did not have the security that citizenship could provide. Giannis and his older brother Thanasis eventually received Greek citizenship in 2013, the same year Giannis entered the NBA. His mother, Veronica, and younger brother Alex did not receive Greek citizenship until 2021. For Giannis, therefore, home was never simply a matter of paperwork. In the 60 Minutes interview, he describes his childhood family life with surprising warmth. His family did not have much money, he explains, but they had happiness. They were together, sometimes all in the same room, and they found ways to enjoy themselves despite the difficulty around them.</p><p>That memory matters because belonging often begins before a person has the language to explain it. It can exist in a crowded room, between siblings sharing shoes, or in the comfort of knowing that the people around you will remain when everything else is uncertain.</p><p>Basketball eventually became another place where Giannis could belong. His father encouraged Giannis and Thanasis to pursue the sport, and the brothers began playing basketball in Athens. The game gave Giannis something beyond a possible career. It gave him a community and a way to be recognized for something he could do. 60 Minutes describes basketball as helping the brothers fit into their surroundings as they developed as players.</p><p>Then, at 18, Giannis left Greece. The Milwaukee Bucks selected him with the 15th pick in the 2013 NBA Draft. He moved from Athens to Milwaukee, entering an unfamiliar country and a professional league that was far larger than the basketball world he had known in Greece.</p><p>His arrival in Milwaukee did not erase the question of belonging. It simply moved the question somewhere else. He had come from Greece, but his parents were Nigerian. He was entering American basketball while still carrying the culture and memories of his childhood. Even his eventual nickname, “the Greek Freak,” emphasized one part of his identity while leaving another part unspoken.</p><p>Years later, Giannis would explain that this had not always been easy. In a 2022 ESPN interview, he talked about growing up hearing conflicting messages about who he was. Some people in Greece told him he was not Greek enough because his parents were Nigerian and because he did not have the same skin color. But when he spent time around Nigerians in Athens, he sometimes encountered the opposite judgment: he was told he was not Nigerian enough because he did not speak the language fluently. He described himself differently. “I feel Greco-Nigeriano,” he said, explaining that he considers himself both Greek and Nigerian.</p><p>That sentence captures the difficulty of belonging to more than one place. People often want identity to be simple. Where are you from? What are you? Which side are you on? But Giannis's experience resists those neat categories. Greece shaped his childhood. Nigeria shaped his family. Milwaukee became the place where his adult life and NBA career developed. Instead of choosing one, he carried all three.</p><p>By 2020, Milwaukee was no longer simply the American city where Giannis played basketball. When he signed a long-term extension with the Bucks, he explained why he wanted to remain there. “It’s the place I want to be,” he said. “It’s the place I want to raise my kids. I feel good here. My family feels good here, so I’m good.”</p><p>His answer is striking because it shows that belonging can be created as much as inherited. Athens was where Giannis was born. It was where his parents built a life after leaving Nigeria. It was where he and his brothers sold goods on the streets and learned basketball. It was the city that shaped his earliest understanding of family and identity.</p><p>But Milwaukee became home, too. That does not mean one place replaced another. In 2021, after Giannis's mother and younger brother received Greek citizenship, Giannis stood with his family at the citizenship ceremony in Athens. He told reporters, “We always felt Greek, but now we have an official stamp and we are happy.”</p><p>The phrase “official stamp” is almost startling after everything his family had experienced. For years, belonging had been something the family felt before it was something a government officially recognized. Giannis could feel Greek while still being questioned about whether he was Greek enough. His family could build a life in Athens while living with uncertainty about their legal status. The citizenship did not create the family's connection to Greece. It formalized something that Giannis said they already felt.</p><p>That distinction is important. Belonging is not always granted by a document, a jersey, a birthplace, or an invitation. Sometimes it is built slowly through memory, family, friendship and time. Sometimes it is complicated by the way other people see you. And sometimes a person belongs to several places at once.</p><p>Giannis's story makes that complexity visible. He is the son of Nigerian immigrants. He is Greek. He is an NBA player from Milwaukee. He is a brother who once shared basketball shoes. He is a father who has said he wants to raise his children in the city that became his second home. None of those identities makes the others less true.</p><p>Perhaps that is why the image of the young Giannis selling watches and glasses in Athens stays with me more than the image of him holding an NBA championship trophy. The trophy represents where his career took him. The street represents where his understanding of home began. Between those two places is an entire life. Athens did not disappear when Giannis moved to Milwaukee. Nigeria did not disappear because he grew up in Greece. And becoming an American NBA superstar did not require him to leave either identity behind. He carried them with him.</p><p>Maybe belonging is not finally finding the one place where you fit perfectly. Maybe it is realizing that home can have more than one name, and that you do not have to cut pieces of yourself away to make room for another.</p></div>
+  <div class="note"><b>Editor’s note:</b> <span>Sources: Giannis’s 60 Minutes interview with Steve Kroft, his 2022 ESPN interview, and news reports on his 2020 Bucks extension and his family’s 2021 citizenship ceremony.</span></div>
+</section>
+
+<section id="poems">
+  <p class="k">Literary Supplement · Poems</p>
+  <h2>Three Small Worlds</h2>
+  <p style="color:var(--mute)">Three separate pieces, each in its own form. Click any line to mark it in red ink.</p>
+  <div id="poemList"></div>
+</section>
+
+<section id="reflection">
+  <p class="k">Op-Ed · Writer’s Reflection</p>
+  <h2>Looking Back</h2>
+  <div class="cols"><p class="dropcap">The poem was the hardest piece for me to write. I didn’t know how to start, and I had to keep checking that what I wrote down made sense to me. The piece I’m proudest of is my journalistic essay. I wrote it about Giannis Antetokounmpo, one of my favorite basketball players, and writing about someone I admire made the words easier to find.</p><p>If I could change one thing, I would deepen my vocabulary, so my next pieces can say what I mean in a stronger way. The biggest thing I learned is that I don’t write my best when I only have a short time. I need space to think and revise, so next time I’ll give myself that.</p></div>
+  <p class="k">Reader’s poll: which piece spoke to you?</p>
+  <div class="ctl" id="vote"></div>
+  <p id="voteOut" class="ph"></p>
+</section>
+
+<footer>Printed with care by Angelo · Creative Composition · All rights reserved</footer>
+</div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+var views=["home","about","memoir","essay","poems","reflection"];
+var tw;
+function typeIt(){
+  clearInterval(tw);var el=$("#type"),t="“The day didn’t become memorable because everything went according to plan. It became memorable because it didn’t.”",i=0;el.textContent="";
+  tw=setInterval(function(){el.textContent=t.slice(0,++i);if(i>=t.length)clearInterval(tw)},45);
+}
+function route(){
+  var h=(location.hash||"#home").slice(1);if(views.indexOf(h)<0)h="home";
+  views.forEach(function(v){$("#"+v).classList.toggle("on",v===h)});
+  document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+h)});
+  window.scrollTo(0,0);if(h==="home")typeIt();
+  if(playing){clearTimeout(mt);loop()}
+}
+window.addEventListener("hashchange",route);route();
+var Q={
+ start:{t:"The night is quiet. On the desk lie four things left behind by the writer: a faded photograph, a newspaper clipping, a folded poem, and a name scribbled in the margin. Which will you pick up?",c:[["The faded photograph","photo"],["The newspaper clipping","clip"],["The folded poem","poem"],["The name in the margin","name"]]},
+ photo:{t:"The edges are soft and curled. Someone was happy here, and someone remembers it differently now. Every memory has a story behind it.",go:["memoir","Open the memoir →"]},
+ clip:{t:"The headline is bold and the facts are plain, yet there is a person behind every sentence.",go:["essay","Read the report →"]},
+ poem:{t:"Only a few lines, but they are written like a secret. The words are small, and the world inside them is not.",go:["poems","Unfold the poems →"]},
+ name:{t:"Who was holding the pen? Before the stories, meet the writer.",go:["about","Meet the author →"]}
+};
+function showQ(k){
+ var n=Q[k],box=$("#quest");box.innerHTML="";
+ var p=document.createElement("p");p.className="qtext";p.textContent=n.t;box.appendChild(p);
+ var w=document.createElement("div");w.className="ctl";
+ if(n.c){n.c.forEach(function(c){var b=document.createElement("button");b.textContent=c[0];b.onclick=function(){showQ(c[1])};w.appendChild(b)})}
+ else{var a=document.createElement("a");a.href="#"+n.go[0];a.className="gobtn";a.textContent=n.go[1];w.appendChild(a);
+  var r=document.createElement("button");r.textContent="↺ Start over";r.onclick=function(){showQ("start")};w.appendChild(r)}
+ box.appendChild(w);
+}
+showQ("start");
+var sw,hi=0;
+var objs=[
+ {e:"✉️",n:"The Letter",go:"about",b:"Read the letter →",s:"Ah, a letter, sealed and a little crumpled. It is from the writer, and it is addressed to you. Shall we see who wrote it?"},
+ {e:"📷",n:"The Photograph",go:"memoir",b:"Remember with me →",s:"Careful with that one. The photograph holds a memory the writer has never forgotten."},
+ {e:"📰",n:"The Clipping",go:"essay",b:"Read the story →",s:"Fresh from the press! Facts, quotes, and one very serious story."},
+ {e:"📜",n:"The Scroll",go:"poems",b:"Unroll the scroll →",s:"A scroll tied with ribbon. Unroll it slowly. Poems like to be read slowly."},
+ {e:"🪶",n:"The Quill",go:"reflection",b:"Take the quill →",s:"The quill is still wet with ink. It remembers every lesson the writer learned along the way."}
+];
+var hints=["Psst, try the letter first. It always makes for a good beginning.","Everything on this desk leads somewhere. Click and see!","Not sure where to start? The photograph has quite the tale."];
+var qb=$("#quest");qb.innerHTML="";
+var ed=document.createElement("div");ed.className="ed";
+ed.innerHTML='<div class="face" title="Ask for a hint">🎩</div><div class="bubble"><b>Editor Quill</b><p id="say"></p><div class="ctl" id="sayBtns"></div></div>';
+var desk=document.createElement("div");desk.className="desk";
+qb.appendChild(ed);qb.appendChild(desk);
+function say(t,btns){
+ clearInterval(sw);var el=$("#say"),i=0;el.textContent="";
+ sw=setInterval(function(){el.textContent=t.slice(0,++i);if(i>=t.length)clearInterval(sw)},22);
+ var w=$("#sayBtns");w.innerHTML="";
+ (btns||[]).forEach(function(x){
+  var e;if(typeof x[1]==="string"){e=document.createElement("a");e.href=x[1];e.className="gobtn"}else{e=document.createElement("button");e.onclick=x[1]}
+  e.textContent=x[0];w.appendChild(e);
+ });
+}
+objs.forEach(function(o){
+ var b=document.createElement("button");b.className="obj";
+ b.innerHTML='<span class="em">'+o.e+'</span><span>'+o.n+'</span>';
+ b.onclick=function(){unlock(o.go);say(o.s,[[o.b,"#"+o.go],["Look around",function(){say("Take your time. Click anything on the desk.")}]])};
+ desk.appendChild(b);
+});
+ed.querySelector(".face").onclick=function(){say(hints[hi++%hints.length])};
+say("Welcome, dear reader! I am Editor Quill, and these are the writer’s most treasured things. Click one on the desk and I’ll tell you its story.");
+function seq(lines,end,i){
+ i=i||0;var last=i>=lines.length-1;
+ say(lines[i],last?end:[["Go on ›",function(){seq(lines,end,i+1)}]]);
+}
+var D=[
+ {go:"about",l:["Ah, you found the letter. The wax seal is still warm, curious, since it was written long ago.","It was written by someone who would rather be understood than noticed.","Would you like to know who? Or will you guess first…"],e:[["Break the seal →","#about"],["Not yet",function(){say("Wise. Letters wait patiently.")}]]},
+ {go:"memoir",l:["Hmm. That photograph looks ordinary at first.","One morning, one sound, and a lot of laughing…","But not everything in it is funny."],e:[["Look closer →","#memoir"],["Put it down",function(){say("Quite right. Some things are best approached slowly.")}]]},
+ {go:"essay",l:["Careful, the ink on that clipping hasn’t dried in years.","Everyone in town had an opinion about what happened. Only one person bothered to check the facts.","Read it, and decide for yourself whether you believe it."],e:[["Read on →","#essay"],["Later",function(){say("News does get old, but this story never quite does.")}]]},
+ {go:"poems",l:["Shh. Speak softly near the scroll.","They say small worlds are hidden inside, but only if you read slowly.","Hurry, and you’ll miss them entirely."],e:[["Unroll it →","#poems"],["Leave it be",function(){say("Hmm. It will keep. Scrolls always do.")}]]},
+ {go:"reflection",l:["Ah, the quill. It has been lying here the longest.","It has watched every draft, every crossed-out line, every moment of doubt.","If it could speak, it would tell you what it learned. Perhaps it still can."],e:[["Take the quill →","#reflection"],["Not now",function(){say("As you wish. It isn’t going anywhere.")}]]}
+];
+desk.querySelectorAll(".obj").forEach(function(b,i){
+ b.onclick=function(){seq(D[i].l,D[i].e)};
+});
+var hints2=["Psst. Try the letter first. It makes for a good beginning, though the order is yours to choose.","Everything on this desk leads somewhere. But it won’t tell you where. Click and see!","Those question marks below? They don’t stay question marks forever.","I have been guarding this desk for years. Nobody ever asks how I am doing. I am fine, thank you."];
+ed.querySelector(".face").onclick=function(){say(hints2[hi++%hints2.length])};
+seq(["Welcome, dear reader! I am Editor Quill, keeper of this desk.","Everything here once belonged to a writer. None of it is quite what it seems.","Pick something up, and I’ll tell you what I know. Though I’ll never tell you everything…"],[]);
+window.addEventListener("hashchange",function(){
+ if(location.hash&&location.hash!=="#home")return;
+ if(Object.keys(unlocked).length===5)seq(["You’ve opened everything on the desk. I knew you would.","Every piece you read was written by hands still learning, still growing. That is the whole point.","Thank you for visiting, dear reader. The desk is always here if you wish to read again."],[]);
+ else say(pick(["Back so soon? Good. There is more on this desk.","Ah, you return. What will you uncover next?","Curious, isn’t it? Keep going."]));
+});
+var chat=[
+ {q:"Who are you, really?",a:"Editor Quill, keeper of this desk. I have read every page that has ever passed through here, and I have never once lost my place."},
+ {q:"Who wrote all of this?",a:"Someone still finding their voice, and brave enough to share it. Pick up the letter and you’ll learn more than I could ever tell you."},
+ {q:"What’s on the desk?",a:"Five things, and each of them hides something. I’m not allowed to say what. Writer’s orders."},
+ {q:"Why are you hiding things?",a:"Because a story you stumble upon is better than one handed to you on a plate."},
+ {q:"Tell me a secret.",a:"Hmm… all right, but only because you asked nicely. The writer rewrote the first line of every piece more times than they’d admit.",f:{q:"Is that really true?",a:"I am a keeper of a desk, not a liar! Well… mostly. You’ll have to read closely to find out."}},
+ {q:"Do you like the music?",a:"The gramophone? Marvelous. It plays a different tune in every room. Press the music button and listen closely as you wander."}
+];
+function talk(){
+ say("Yes? What would you like to ask me?",chat.map(function(c,i){return [c.q,function(){ask(i)}]}).concat([["Never mind",function(){say("Very well. The desk awaits.")}]]));
+}
+function ask(i){
+ var c=chat[i],more=[["Ask something else",talk],["Back to the desk",function(){say("Of course. Take your time.")}]];
+ if(c.f){more.unshift([c.f.q,function(){say(c.f.a,[["Ask something else",talk],["Back to the desk",function(){say("Of course. Take your time.")}]])}])}
+ say(c.a,more);
+}
+var trow=document.createElement("div");trow.className="ctl";
+var tb=document.createElement("button");tb.textContent="💬 Talk to Quill";tb.onclick=talk;
+trow.appendChild(tb);qb.insertBefore(trow,desk);
+var objEls=[].slice.call(desk.querySelectorAll(".obj")),reg=[];
+[0,4,1,2,3].forEach(function(oi,p){
+ var b=objEls[oi],old=b.onclick;
+ desk.appendChild(b);b._html=b.innerHTML;reg.push(b);
+ if(p>0){b.classList.add("sealed");b.innerHTML='<span class="em">❓</span><span>Not yet…</span>'}
+ b.onclick=function(){
+  if(b.classList.contains("sealed")){say("Not yet. Something else on this desk must be found first. Look for what is already awake.");return}
+  old();
+  
+ };
+});
+var gr=document.querySelector(".grid");
+["#about","#reflection","#memoir","#essay","#poems"].forEach(function(h,i){
+ var t=gr.querySelector('a[href="'+h+'"]');gr.appendChild(t);
+ var sp=t.querySelector("span");sp.textContent=sp.textContent.replace(/Page \d/,"Page "+(i+2));
+});
+hints2.length=0;
+hints2.push("Psst. Only one thing on this desk is awake. Start with that, and the rest will follow.","The question marks below don’t stay question marks forever. Neither do the ones on the desk.","Patience, dear reader. A good story reveals itself in order.","I have been guarding this desk for years. Nobody ever asks how I am doing. I am fine, thank you.");
+window.addEventListener("hashchange",function(){
+ if(location.hash&&location.hash!=="#home")return;
+ if(window._fresh&&(window._fresh=false,Object.keys(unlocked).length<5))setTimeout(function(){say("Something new has stirred on the desk while you were away…")},900);
+});
+seq(["Welcome, dear reader! I am Editor Quill, keeper of this desk.","Everything here once belonged to a writer. Only one thing has stirred so far. The rest sleep until their time.","Start with what is awake, and I’ll tell you what I know. Though I’ll never tell you everything…"],[]);
+function say(t,btns){
+ clearTimeout(sw);var el=$("#say"),i=0,bt=btns||[],w=$("#sayBtns");el.textContent="";w.innerHTML="";
+ function add(x){
+  var e;if(typeof x[1]==="string"){e=document.createElement("a");e.href=x[1];e.className="gobtn"}else{e=document.createElement("button");e.onclick=x[1]}
+  e.textContent=x[0];w.appendChild(e);
+ }
+ function step(){
+  i++;var c=t.charAt(i-1);
+  el.textContent=t.slice(0,i)+(i<t.length?"▍":"");
+  if(c&&c!==" ")sfx("key");
+  if(i>=t.length){bt.forEach(add);return}
+  sw=setTimeout(step,/[.!?…]/.test(c)?280:/[,;:]/.test(c)?150:38);
+ }
+ $(".bubble").onclick=function(){if(i<t.length){clearTimeout(sw);i=t.length;el.textContent=t;bt.forEach(add)}};
+ step();
+}
+var sec=[
+ {a:"Hmm… all right, but only because you asked nicely. The writer rewrote the first line of every piece more times than they’d admit.",f:{q:"Is that really true?",a:"I am a keeper of a desk, not a liar! Well… mostly. You’ll have to read closely to find out."}},
+ {a:"This desk has a drawer that never opens. I’ve tried. The writer swears nothing is inside, yet it rattles at midnight.",f:{q:"What’s in the drawer?",a:"If I knew, would it still be a secret? Perhaps it’s a story that hasn’t been written yet."}},
+ {a:"Between us, the writer almost didn’t share any of this. Far too nervous. Yet here you are, reading it, and I think that took more courage than any poem.",f:{q:"Why were they nervous?",a:"Because words feel different once someone else is reading them. That is exactly what makes writing brave."}},
+ {a:"I’m not actually allowed to leave this desk. Editor’s contract. Rather romantic, isn’t it?",f:{q:"Do you ever get lonely?",a:"Only when nobody visits. So thank you, truly, for coming."}},
+ {a:"Hidden somewhere in this portfolio is a word the writer loves more than any other. Read carefully and you might catch it.",f:{q:"Which word?",a:"Ah, ah, ah. That would spoil it. But the more closely you read, the easier it is to spot."}},
+ {a:"Some of the best lines on this desk were scribbled in a hurry, in the margins, and never changed.",f:{q:"Which lines?",a:"You’ll know them when you find them. They sound like the writer talking, not performing."}}
+],sc2=0;
+function ask(i){
+ var c=chat[i];if(i===4)c=sec[sc2++%sec.length];
+ var back=[["Ask something else",talk],["Back to the desk",function(){say("Of course. Take your time.")}]],more=back.slice();
+ if(c.f)more.unshift([c.f.q,function(){say(c.f.a,back)}]);
+ say(c.a,more);
+}
+function typeEl(el){
+ var t=el.getAttribute("data-full");if(!t){t=el.textContent;el.setAttribute("data-full",t)}
+ var i=0;el.textContent="";clearInterval(el._id);
+ el._id=setInterval(function(){el.textContent=t.slice(0,++i);if(i>=t.length)clearInterval(el._id)},30);
+}
+window.addEventListener("hashchange",function(){
+ var h=location.hash.slice(1);if(!h||h==="home")return;
+ var d=document.querySelector("#"+h+" .say");if(d)typeEl(d);
+});
+var sx,sg,sfxOn=true;
+function initSX(){
+ try{if(!sx){sx=new (window.AudioContext||window.webkitAudioContext)();sg=sx.createGain();sg.gain.value=.55;sg.connect(sx.destination)}if(sx.state==="suspended")sx.resume()}catch(e){}
+}
+function nz(len,type,fr,vol,sweep){
+ var n=Math.floor(sx.sampleRate*len),b=sx.createBuffer(1,n,sx.sampleRate),d=b.getChannelData(0);
+ for(var i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2);
+ var s=sx.createBufferSource(),f=sx.createBiquadFilter(),g=sx.createGain(),t=sx.currentTime;
+ s.buffer=b;f.type=type;f.frequency.setValueAtTime(fr,t);if(sweep)f.frequency.exponentialRampToValueAtTime(sweep,t+len);
+ g.gain.value=vol;s.connect(f);f.connect(g);g.connect(sg);s.start(t);
+}
+function bp(f,dur,vol,type,delay){
+ var t=sx.currentTime+(delay||0),o=sx.createOscillator(),g=sx.createGain();
+ o.type=type||"sine";o.frequency.setValueAtTime(f,t);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0005,t+dur);
+ o.connect(g);g.connect(sg);o.start(t);o.stop(t+dur+.05);
+}
+var FX={
+ key:function(){nz(.03,"highpass",3500,.07);bp(180,.04,.04,"square")},
+ click:function(){bp(900,.06,.05,"triangle")},
+ paper:function(){nz(.3,"bandpass",1200,.16,3500)},
+ page:function(){nz(.45,"bandpass",800,.14,4000)},
+ unlock:function(){bp(659.25,1,.12,"sine");bp(987.77,1.2,.1,"sine",.12);bp(1318.5,1.5,.07,"sine",.24)},
+ deny:function(){bp(110,.25,.14,"square");bp(82,.3,.12,"square",.08)},
+ stamp:function(){nz(.12,"lowpass",600,.4);bp(70,.25,.3,"sine")},
+ bell:function(){bp(1760,1.2,.12,"sine");bp(2349,1,.06,"sine")},
+ pop:function(){bp(300,.12,.1,"triangle");bp(500,.1,.07,"triangle",.07)},
+ pencil:function(){nz(.14,"highpass",2200,.1)},
+ crack:function(){nz(.06,"highpass",2500,.6);bp(1400,.05,.2,"square");bp(260,.12,.25,"square",.03);nz(.25,"bandpass",900,.2,200)}
+};
+function sfx(n){
+ if(!sfxOn||!sx)return;
+ function go(){try{FX[n]()}catch(e){}}
+ if(sx.state==="running")go();else sx.resume().then(go);
+}
+document.addEventListener("pointerdown",initSX);
+document.addEventListener("click",function(e){
+ var t=e.target;if(!t.closest)return;
+ var o=t.closest(".obj"),tl=t.closest(".tile");
+ if(o){if(o.classList.contains("sealed"))sfx("deny");else sfx("paper");return}
+ if(tl){sfx(tl.classList.contains("locked")?"deny":"page");return}
+ if(t.closest(".crack")){var cr=t.closest(".crack");cr.classList.remove("shake");void cr.offsetWidth;cr.classList.add("shake");sfx("crack");return}
+ if(t.closest(".stamp")){sfx("stamp");return}
+ if(t.closest(".face")){sfx("pop");return}
+ if(t.closest(".line")){sfx("pencil");return}
+ if(t.closest("#fxBtn")||t.closest("#talkBtn"))return;
+ if(t.closest("a.gobtn")){sfx("page");return}
+ if(t.closest("button"))sfx("click");
+},true);
+tb.id="talkBtn";tb.addEventListener("click",function(){sfx("bell")});
+var fb=document.createElement("button");fb.id="fxBtn";fb.textContent="🔊 Sound effects: on";
+fb.onclick=function(){sfxOn=!sfxOn;fb.textContent=sfxOn?"🔊 Sound effects: on":"🔇 Sound effects: off";if(sfxOn)sfx("click")};
+$(".tools").insertBefore(fb,$("#musicBtn").nextSibling);
+var intro={about:"“Now, who wrote all this? Read, and you’ll see.”",memoir:"“Every picture has a story behind it. This one is no different.”",essay:"“Some stories are best told plainly.”",poems:"“Quiet now. The words are shy.”",reflection:"“Every journey ends with a look back.”"};
+var intro0={about:"“This letter is from the writer. Read it slowly.”",memoir:"“A memory worth keeping. Let’s see what the photograph remembers.”",essay:"“Stop the presses! Here is the full story.”",poems:"“Hush now. The scroll is unrolling…”",reflection:"“And now the writer looks back on the whole journey.”"};
+Object.keys(intro).forEach(function(k){
+ var d=document.createElement("div");d.className="say";d.textContent="🎩 Editor Quill: "+intro[k];
+ var s=$("#"+k);s.insertBefore(d,s.children[1]);
+});
+var order=[["home","Front Page"],["about","The Author"],["memoir","Memoir"],["essay","Journalistic Essay"],["poems","Poems"],["reflection","Reflection"]];
+order.forEach(function(o,i){
+ if(!i)return;
+ var d=document.createElement("div");d.className="next";
+ var a=document.createElement("a"),b=document.createElement("a"),pr=order[i-1],nx=order[i+1];
+ a.href="#"+pr[0];a.textContent="← "+pr[1];
+ if(nx){b.href="#"+nx[0];b.textContent="Next chapter: "+nx[1]+" →"}else{b.href="#home";b.textContent="The end · Back to the front page ↺"}
+ d.appendChild(a);d.appendChild(b);$("#"+o[0]).appendChild(d);
+});
+document.querySelectorAll(".next").forEach(function(d){d.innerHTML='<a href="#home">← Back to the desk</a>'});
+var unlocked={},keys=["about","reflection","memoir","essay","poems"],tiles=document.querySelectorAll(".tile"),orig=[];
+tiles.forEach(function(t,i){
+ orig[i]=t.innerHTML;t.classList.add("locked");
+ t.innerHTML="<b>? ? ?</b><span>Locked · find its clue on the desk</span>";
+ t.addEventListener("click",function(e){if(t.classList.contains("locked")){e.preventDefault();say("That one is still locked. Click something on the desk to discover its secret.")}});
+});
+function unlock(k){
+ var i=keys.indexOf(k);if(i<0||unlocked[k])return;
+ unlocked[k]=1;tiles[i].classList.remove("locked");tiles[i].innerHTML=orig[i];if(k==="about")revealName();
+}
+$("#date").textContent=new Date().toLocaleDateString("en-US",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+window.addEventListener("scroll",function(){var d=document.documentElement,m=d.scrollHeight-d.clientHeight;$("#bar").style.width=(m>0?d.scrollTop/m*100:0)+"%"});
+
+var ROACH="<svg viewBox=\"0 0 60 100\" width=\"34\" height=\"56\"><g stroke=\"currentColor\" stroke-width=\"2\" fill=\"none\" stroke-linecap=\"round\"><path d=\"M26 18 C18 6 10 2 2 0\"/><path d=\"M34 18 C42 6 50 2 58 0\"/><path d=\"M20 40 L6 34 L0 26\"/><path d=\"M40 40 L54 34 L60 26\"/><path d=\"M19 54 L4 58 L0 68\"/><path d=\"M41 54 L56 58 L60 68\"/><path d=\"M21 68 L8 80 L6 96\"/><path d=\"M39 68 L52 80 L54 96\"/></g><ellipse cx=\"30\" cy=\"22\" rx=\"7\" ry=\"6\" fill=\"currentColor\"/><path d=\"M30 28 C42 28 44 50 42 66 C40 84 34 92 30 92 C26 92 20 84 18 66 C16 50 18 28 30 28Z\" fill=\"currentColor\"/><path d=\"M30 30 L30 90\" stroke=\"var(--paper)\" stroke-width=\"1.2\" opacity=\".5\"/></svg>";
+var poems=[
+ {t:"Vermin",s:"Poem I · Lyric poem",roach:true,b:["It scurries across the tiles, I recoil at its sight.", "Six legs scramble for shelter when I switch on the light.", "I wonder how something so repulsive can refuse to die,", "how it keeps returning to the place that makes it hide.", "", "~How strange, to hate a thing for wanting to remain.", "", "It learns the sound of footsteps, the timing of the broom.", "I learn to lower my voice before I enter a room.", "Its wings remain unopened, mine too, have never spread.", "It runs beneath the furniture, I rehearse what should be said.", "", "~How strange, to hate a thing for wanting to remain.", "", "I raise my foot, then catch my shadow on the wall.", "For a moment, I cannot tell which shape is small.", "The slipper stays suspended, neither of us moves.", "I wonder which of us the room would choose to lose."]},
+ {t:"Poem II",s:"Poem II · Coming soon",soon:true},
+ {t:"Poem III",s:"Poem III · Coming soon",soon:true}
+];
+poems.forEach(function(p){
+  var d=document.createElement("div");d.className="poem"+(p.soon?" soon":"");
+  var b=document.createElement("button");b.innerHTML="<h3></h3><small></small>";
+  b.querySelector("h3").textContent=p.t;b.querySelector("small").textContent=p.s;
+  var body=document.createElement("div");body.className="pb";
+  if(p.soon){body.textContent="This poem is still at the printing press."}
+  else{
+    if(p.roach){d.classList.add("roachy");var rc=document.createElement("div");rc.className="roach";rc.setAttribute("aria-hidden","true");rc.innerHTML=ROACH;d.appendChild(rc);rc.onmouseenter=rc.onclick=function(){rc.classList.remove("flee");void rc.offsetWidth;rc.classList.add("flee")}}
+    p.b.forEach(function(l){var s=document.createElement("div");if(l===""){s.className="gap";body.appendChild(s);return}var rf=l[0]==="~";if(rf)l=l.slice(1);s.className="line"+(rf?" refrain":"");s.textContent=l;s.onclick=function(){s.classList.toggle("hl")};body.appendChild(s)});
+    if(p.n){var n=document.createElement("div");n.className="note";n.textContent="Editor’s note: "+p.n;body.appendChild(n);}
+  }
+  b.onclick=function(){d.classList.toggle("open")};
+  d.appendChild(b);d.appendChild(body);$("#poemList").appendChild(d);
+});
+
+var ans={"Free time":"Music, movies and series, online games, and cooking","Favorite player":"LeBron James","On the court":"I watch, I don’t play. Sadly."};
+["Free time","Favorite player","On the court"].forEach(function(f){
+  var b=document.createElement("button");b.textContent=f;
+  b.onclick=function(){$("#factOut").textContent=f+": "+ans[f]};$("#facts").appendChild(b);
+});
+var counts={};
+["Memoir","Essay","Poems"].forEach(function(n){
+  var b=document.createElement("button");b.textContent=n;
+  b.onclick=function(){counts[n]=(counts[n]||0)+1;$("#voteOut").textContent="Votes this visit: "+Object.keys(counts).map(function(k){return k+" "+counts[k]}).join(" · ")};
+  $("#vote").appendChild(b);
+});
+
+var stamps=["Approved for print","Hot off the press","Extra! Extra!","Stop the presses"];var sc=0;
+$("#stamp").onclick=function(){this.textContent=stamps[++sc%4];this.style.transform="rotate("+(Math.random()*16-8)+"deg) scale(1.15)"};
+
+$("#notesBtn").onclick=function(){document.body.classList.toggle("notes-on")};
+var sizes=[19,22,16],si=0;
+$("#fsBtn").onclick=function(){si=(si+1)%3;document.body.style.setProperty("--fs",sizes[si]+"px")};
+$("#age").oninput=function(){document.documentElement.style.setProperty("--age",this.value/100)};
+$("#themeBtn").onclick=function(){
+  var r=document.documentElement,dark=r.getAttribute("data-theme")==="dark"||(!r.getAttribute("data-theme")&&matchMedia("(prefers-color-scheme:dark)").matches);
+  var next=dark?"light":"dark";
+  r.setAttribute("data-theme",next);this.textContent=dark?"☾ Night edition":"☀ Day edition";
+  try{localStorage.setItem("dailyBugle.v1.theme",next)}catch(e){}
+};
+
+/* Old gramophone: vinyl crackle + music-box melody, made in the browser */
+var ctx,master,mt,playing=false,ni=0;
+var mel=[392,329.63,392,523.25,493.88,392,329.63,293.66,329.63,392,329.63,261.63];
+function note(f,dur,vol){
+  var t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
+  o.type="triangle";o.frequency.value=f;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.02);g.gain.exponentialRampToValueAtTime(.0005,t+dur);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.1);
+}
+var step=0;
+function tone(f,dur,vol,type){
+  var t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();
+  o.type=type||"sine";o.frequency.value=f;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.02);g.gain.exponentialRampToValueAtTime(.0005,t+dur);
+  o.connect(g);g.connect(master);o.start(t);o.stop(t+dur+.1);
+}
+function hit(vol,hp,len){
+  var b=ctx.createBuffer(1,Math.floor(ctx.sampleRate*len),ctx.sampleRate),d=b.getChannelData(0);
+  for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);
+  var s=ctx.createBufferSource(),f=ctx.createBiquadFilter(),g=ctx.createGain();
+  s.buffer=b;f.type="highpass";f.frequency.value=hp;g.gain.value=vol;s.connect(f);f.connect(g);g.connect(master);s.start();
+}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+var bass=[[73.42,87.31,110,98],[98,123.47,146.83,130.81],[65.41,82.41,98,110],[110,138.59,164.81,146.83]];
+var comp=[[261.63,349.23,440],[246.94,349.23,392],[329.63,392,493.88],[277.18,392,440]];
+var tracks={
+ home:function(){ /* swing jazz */
+  var s=step++,bar=Math.floor(s/8)%4,beat=Math.floor((s%8)/2);
+  if(s%2===0){tone(bass[bar][beat],.5,.3,"triangle");hit(.06,6500,.06)}else hit(.025,6500,.04);
+  if(s%8===3||s%8===7)comp[bar].forEach(function(f){tone(f,.35,.07,"triangle")});
+  if(Math.random()<.4)tone(pick([523.25,587.33,659.25,783.99,880,698.46]),.45,.09,"triangle");
+  return ["Smoky jazz",s%2?250:390];
+ },
+ about:function(){ /* music-box waltz */
+  var s=step++,ch=[[261.63,329.63,392],[196,246.94,392],[220,261.63,329.63],[174.61,220,349.23]][Math.floor(s/3)%4],i=s%3;
+  tone(ch[i]*(i?2:1),1.4,.14,"sine");if(i===0)tone(ch[0]/2,1.6,.12,"triangle");
+  return ["Music-box waltz",330];
+ },
+ memoir:function(){ /* nostalgic, slow */
+  var s=step++,ch=[[110,220,261.63,329.63],[87.31,174.61,220,261.63],[73.42,146.83,174.61,220],[82.41,164.81,207.65,246.94]][Math.floor(s/4)%4];
+  if(s%4===0)ch.forEach(function(f){tone(f,4.5,.08,"triangle")});
+  if(s%2===1)tone(pick([440,523.25,493.88,392,329.63]),1.8,.1,"sine");
+  return ["Faded memories",1000];
+ },
+ essay:function(){ /* newsroom */
+  var s=step++;hit(.1,3000,.03);
+  if(s%4===0)tone(98,.25,.25,"square");
+  if(s%8===4)tone(146.83,.2,.18,"square");
+  if(s%16===15)hit(.25,1200,.25);
+  return ["Newsroom typewriters",s%3?170:260];
+ },
+ poems:function(){ /* harp */
+  var s=step++;tone(pick([261.63,293.66,329.63,392,440,523.25,587.33]),2.6,.13,"sine");
+  if(s%4===0)tone(130.81,3,.1,"triangle");
+  return ["Soft harp",520];
+ },
+ reflection:function(){ /* warm slow chords with bells */
+  var s=step++,ch=[[130.81,196,261.63,329.63],[98,196,246.94,293.66],[87.31,174.61,220,261.63],[98,196,261.63,293.66]][s%4];
+  ch.forEach(function(f){tone(f,5,.08,"triangle")});tone(ch[3]*2,3,.09,"sine");
+  return ["Warm afterglow",2400];
+ }
+};
+var jazz=tracks.home,hIdx=0;
+var homeNames=["Smoky jazz","Honky-tonk rag","Midnight blues","Rainy-day piano","Dance-hall waltz"];
+var homeList=[jazz,
+ function(){var s=step++,bar=Math.floor(s/8)%4,p=s%8,rt=[130.81,110,146.83,98][bar],fi=[196,164.81,220,146.83][bar],ch=[[261.63,329.63,392],[277.18,329.63,392],[293.66,369.99,440],[246.94,293.66,392]][bar];
+  if(p===0)tone(rt,.3,.28,"triangle");if(p===4)tone(fi,.3,.24,"triangle");
+  if(p===2||p===6)ch.forEach(function(f){tone(f,.22,.06,"triangle")});
+  if(Math.random()<.55)tone(pick([523.25,587.33,659.25,783.99,880,1046.5]),.22,.09,"triangle");
+  return [homeNames[1],190]},
+ function(){var s=step++,seq=[0,0,0,0,1,1,0,0,2,1,0,2],b=seq[Math.floor(s/4)%12],p=s%4,r=[65.41,87.31,98][b];
+  if(p===0){tone(r,.9,.3,"triangle");[r*4,r*5,r*6].forEach(function(f){tone(f,1.4,.05,"triangle")})}
+  if(p===2)tone(r*1.5,.7,.22,"triangle");
+  hit(.03,6000,.04);
+  if(Math.random()<.45)tone(pick([523.25,622.25,698.46,739.99,783.99,932.33]),.9,.1,"sine");
+  return [homeNames[2],480]},
+ function(){var s=step++,ch=[[174.61,261.63,329.63,440],[164.81,246.94,293.66,392],[146.83,220,261.63,349.23],[130.81,196,246.94,329.63]][Math.floor(s/8)%4];
+  tone(ch[s%4]*(s%8<4?1:2),1.6,.11,"sine");if(s%8===0)tone(ch[0]/2,3,.12,"triangle");
+  hit(.02,6000,.2);
+  return [homeNames[3],900]},
+ function(){var s=step++,p=s%3,ch=[[261.63,329.63,392],[174.61,220,261.63],[196,246.94,293.66],[261.63,329.63,392]][Math.floor(s/6)%4];
+  if(p===0)tone(ch[0]/2,.5,.28,"triangle");else ch.forEach(function(f){tone(f,.28,.07,"triangle")});
+  if(p===0&&Math.random()<.7)tone(pick([523.25,587.33,659.25,783.99,880]),.5,.1,"triangle");
+  return [homeNames[4],360]}
+];
+tracks.home=function(){return homeList[hIdx]()};
+var tuneBtn=document.createElement("button");tuneBtn.id="tuneBtn";tuneBtn.textContent="♫ Home tune: "+homeNames[0];
+tuneBtn.onclick=function(){
+ hIdx=(hIdx+1)%homeList.length;tuneBtn.textContent="♫ Home tune: "+homeNames[hIdx];
+ if(!playing)setMusic(true);else if(!location.hash||location.hash==="#home"){clearTimeout(mt);loop()}
+};
+$(".tools").insertBefore(tuneBtn,$("#musicBtn").nextSibling);
+function syncTune(){tuneBtn.style.display=(!location.hash||location.hash==="#home")?"":"none"}
+window.addEventListener("hashchange",syncTune);syncTune();
+var h0=$("#title0"),fullTitle=h0.textContent;
+h0.textContent="? ? ? ? ?’s Collected Writing";
+function revealName(){h0.textContent=fullTitle;h0.style.animation="none";void h0.offsetWidth;h0.style.animation="in .9s"}
+var pgOrder=["about","reflection","memoir","essay","poems"];
+function opened(){
+ var h=location.hash.slice(1),p=pgOrder.indexOf(h);if(p<0)return;
+ unlock(h);
+ var nb=reg[p+1];
+ if(nb&&nb.classList.contains("sealed")){nb.classList.remove("sealed");nb.innerHTML=nb._html;window._fresh=true;sfx("unlock")}
+}
+window.addEventListener("hashchange",opened);
+/* Remember returning readers */
+(function(){
+ var K="dailyBugle.v1",st;function save(){try{localStorage.setItem(K,JSON.stringify(st))}catch(e){}}try{st=JSON.parse(localStorage.getItem(K))||{}}catch(e){st={}}
+ st.seen=st.seen||[];var h0=location.hash.slice(1);if(pgOrder.indexOf(h0)>=0&&st.seen.indexOf(h0)<0){st.seen.push(h0);st.last=h0;save()}
+ st.seen.forEach(function(h){var p=pgOrder.indexOf(h);if(p<0)return;unlock(h);var nb=reg[p+1];if(nb&&nb.classList.contains("sealed")){nb.classList.remove("sealed");nb.innerHTML=nb._html}});
+ window.addEventListener("hashchange",function(){var h=location.hash.slice(1);if(pgOrder.indexOf(h)>=0&&st.seen.indexOf(h)<0){st.seen.push(h);save()}if(h)st.last=h;save()});
+ if(st.seen.length&&!location.hash){setTimeout(function(){
+  var btns=st.last&&st.last!=="home"?[["Continue where you left off →","#"+st.last]]:[];
+  btns.push(["Start fresh",function(){if(confirm("Forget your progress and lock the desk again?")){localStorage.removeItem(K);location.hash="";location.reload()}}]);
+  say(st.seen.length>=5?"Welcome back, dear reader! Everything on the desk is still open for you.":"Welcome back, dear reader! I kept the desk just as you left it.",btns)},2600)}
+ var th=localStorage.getItem(K+".theme");
+ if(th){document.documentElement.setAttribute("data-theme",th);var tb=document.getElementById("themeBtn");if(tb)tb.textContent=th==="dark"?"☀ Day edition":"☾ Night edition"}
+})();
+
+function loop(){
+  var h=(location.hash||"#home").slice(1),r=(tracks[h]||tracks.home)();
+  $("#musicBtn").textContent="♪ Gramophone: on";
+  mt=setTimeout(loop,r[1]);
+}
+function setMusic(on){
+  try{
+    if(on&&!ctx){
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain();master.gain.value=.6;
+      var lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=2200;
+      master.connect(lp);lp.connect(ctx.destination);
+      var n=ctx.sampleRate*3,buf=ctx.createBuffer(1,n,ctx.sampleRate),d=buf.getChannelData(0);
+      for(var i=0;i<n;i++){d[i]=(Math.random()*2-1)*.012;if(Math.random()<.0004)d[i]=(Math.random()*2-1)*.5}
+      var src=ctx.createBufferSource();src.buffer=buf;src.loop=true;
+      var cg=ctx.createGain();cg.gain.value=.5;src.connect(cg);cg.connect(master);src.start();
+    }
+    if(on){ctx.resume();loop()}else{clearTimeout(mt);if(ctx)ctx.suspend()}
+    playing=on;if(!on)$("#musicBtn").textContent="♪ Gramophone: off";
+  }catch(e){}
+}
+$("#musicBtn").onclick=function(){setMusic(!playing)};
+})();
+</script>
+</body>
+</html>
